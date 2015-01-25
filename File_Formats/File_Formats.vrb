@@ -1,0 +1,8 @@
+\frametitle{Other formats}
+
+For Philips scanners, files from the scanner are PAR/REC and not DICOM.  \verb|dcm2nii| can convert to NIfTI. \\
+
+NIfTI format was based on ANALYZE fromat where the header and image were in separate \verb|.hdr| and \verb|.img| files.  This is an older fromat and we will not use this way of storing data because 1) NIfTI can have one file with both header and image information, and 2) Can be stored as compressed .nii.gz files.\\
+
+NRRD (Nearly Raw Raster Data) is another format similar to NIfTI.  Much of the neuroimaging software can read in both NRRD and NIfTI files, but NIfTI is much more common.
+

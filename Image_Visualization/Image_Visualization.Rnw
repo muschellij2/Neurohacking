@@ -1,0 +1,199 @@
+\documentclass[11pt]{beamer}
+\usetheme{Warsaw}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{array}
+\author{John Muschelli}
+\usepackage{hyperref}
+\setbeamertemplate{navigation symbols}{}%remove navigation symbols
+
+\title{File Formats of Neuroomaging}
+%\setbeamercovered{transparent} 
+%\setbeamertemplate{navigation symbols}{} 
+%\logo{} 
+\institute{Johns Hopkins Bloomberg School of Public Health} 
+%\date{} 
+%\subject{} 
+\setlength{\topsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\partopsep}{1pt}
+\setbeamertemplate{footline}[frame number]
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+%\begin{frame}
+%\tableofcontents
+%\end{frame}
+
+<<label=opts, results='hide', echo=FALSE, message = FALSE, warning=FALSE>>=
+library(knitr)
+library(highr)
+opts_chunk$set(echo=TRUE, prompt=FALSE, message=FALSE, warning=FALSE, comment="", dev='png')
+knit_hooks$set(inline = function(x) { 
+  if (is.numeric(x)) return(knitr:::format_sci(x, 'latex')) 
+  hi_latex(x) 
+}) 
+setwd("~/Dropbox/Neurohacking/File_Formats")
+@
+
+\begin{frame}[fragile]{Image formats: DICOM}
+DICOM (Digital Imaging and Communications in Medicine) format
+
+\begin{itemize}
+\item Standardized way of representing images
+\item Usually how data is given either from scanner or hospital PACS (picture archiving and communication system) system 
+\item 2 integral pieces: Image data (in pixels) and header (meta-data (data about data))
+\begin{itemize}
+	\item Think of a JPEG and a text file
+\end{itemize}
+%\item Extensions are usually \verb|.dcm|, but may have no extension whatsoever
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{DICOM pixel data}
+
+The pixel data in a DICOM file is a matrix (fixed number of rows and columns). 
+
+One DICOM file represents one "slice" of the brain.
+
+The \verb|oro.dicom| package is good for reading in this data.
+
+<<read.dicom>>=
+library(oro.dicom)
+slice = readDICOM('Example_DICOM.dcm')
+class(slice)
+@
+
+\end{frame}
+
+\begin{frame}[fragile]{readDICOM output}
+
+The output is a list with 2 elements: the DICOM header (\verb|hdr|) and image (\verb|img|) information, both of which are lists.
+
+Each element of \verb|hdr| has a \verb|data.frame|, and the elements of \verb|img| are matrices:
+<<hdr.dicom>>=
+names(slice)
+class(slice$hdr)
+class(slice$hdr[[1]])
+class(slice$img)
+class(slice$img[[1]])
+@
+
+\end{frame}
+
+\begin{frame}[fragile]{Display DICOM Image}
+
+We can display the data using the \verb|image| command.  
+
+(We transpose the data using \verb|t()| so the image faces ``up'' instead of ``right''.)
+
+<<display.dicom, fig.width=4,fig.height=4,out.width='.8\\linewidth'>>=
+image(t(slice$img[[1]]), col=gray(0:64/64))
+@
+
+\end{frame}
+
+\begin{frame}[fragile]{DICOM Header Information}
+
+What about the header?
+
+There are many fields, for example pixelSpacing, which is the dimensions (x and y) of a pixel in millimeters (mm):
+
+<<pixelspacing.dicom>>=
+hdr = slice$hdr[[1]]
+hdr[ hdr$name == 'PixelSpacing', "value"]
+@
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Multiple DICOM files}
+
+We have discussed only one slice of the brain.  What about multiple slices?  If you pass a directory into \verb|readDICOM|, it will read in all DICOM files in that directory.
+
+<<multi.dicom, cache=FALSE>>=
+all_slices = readDICOM('T1/')
+@
+
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{NIfTI}
+
+Now that we have multiple slices read in, we can convert it to a 3-dimensional (3D) array, where you can think of the array as stacking each slice (which is a matrix) on top of each other.  If each DICOM is a piece of paper, the 3D array is a stack of paper.\\
+
+The way we store this 3D array is in the NIfTI (Neuroimaging Informatics Technology Initiative) format.  \\
+
+\begin{table}[h]
+\begin{tabular}{m{0.15\textwidth}|m{0.42\textwidth}|m{0.42\textwidth}}
+& DICOM & NIfTI \\ \hline
+File extension: & .dcm & .nii or .nii.gz (compressed) \\
+Each file is a: & slice of the brain & 3D image of brain \\
+Header information: & Many fields, protected health information, hospital-related meta-data & Image meta-data, no patient information \\
+Different Images & Different Folders & Different Files (can be same directory)
+\end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}[fragile]{NIfTI}
+
+We can convert this list of header information and image information to a \verb|nifti| object (an R object) with the \verb|dicom2nifti| command:
+<<nifti>>=
+nii = dicom2nifti(all_slices)
+dim(nii); class(nii)
+@
+We can see that this \verb|nii| object is indeed a \verb|nifti| object and has 3 dimensions. 
+
+\end{frame}
+
+\begin{frame}[fragile]{Writing out NIfTI file}
+
+The \verb|writeNIfTI| command from the \verb|oro.nifti| package can write out this \verb|nifti| object to a NIfTI file:
+
+<<writenifti>>=
+library(oro.nifti)
+writeNIfTI(nim = nii, filename = "Output_3D_File")
+list.files(getwd(), pattern = "Output_3D_File")
+@
+Note that the extension is \verb|.nii.gz|, which is a compressed NIfTI file, which saves disk space for storage.
+
+You can output a non-compressed file using the argument \verb|gzipped=TRUE|.
+
+(NB: The filename argument in \verb|writeNIfTI| should NOT have an extension)
+
+\end{frame}
+
+\begin{frame}[fragile]{Other DICOM converters}
+
+Although our main goal is to analyze neuro data with the fewest pieces of software, we are pragmatic and use existing software if it works well.
+
+The \href{http://www.mccauslandcenter.sc.edu/mricro/mricron/dcm2nii.html}{dcm2nii} software converts DICOM files to NIfTI files, and can handle many different formats and file types.
+
+In general, the format we will be using will be NIfTI, and we will store out data in compressed format, so extensions of our images will be \verb|.nii.gz|.
+
+\end{frame}
+
+\begin{frame}[fragile]{Other formats}
+
+\begin{itemize}
+\item For Philips scanners, files from the scanner are \href{http://sourceforge.net/projects/r2agui/}{PAR/REC} and not DICOM.  \href{http://sourceforge.net/projects/r2agui/}{r2a} can convert these to NIfTI. \\
+
+\item NIfTI format was based on ANALYZE format where the header and image were in separate \verb|.hdr| and \verb|.img| files.  This is an older fromat and we will not use this way of storing data because 1) NIfTI can have one file with both header and image information, and 2) Can be stored as compressed .nii.gz files.\\
+
+\item NRRD (Nearly Raw Raster Data) is another format similar to NIfTI.  Much of the neuroimaging software can read in both NRRD and NIfTI files, but NIfTI is much more common.
+
+\end{itemize}
+\end{frame}
+
+
+\end{document}

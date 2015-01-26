@@ -9,7 +9,7 @@
 \usepackage{hyperref}
 \setbeamertemplate{navigation symbols}{}%remove navigation symbols
 
-\title{File Formats of Neuroomaging}
+\title{File Formats of Neuroimaging}
 %\setbeamercovered{transparent} 
 %\setbeamertemplate{navigation symbols}{} 
 %\logo{} 

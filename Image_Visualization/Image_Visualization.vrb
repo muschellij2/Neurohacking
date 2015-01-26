@@ -1,0 +1,10 @@
+\frametitle{Functions discussed here}
+\begin{itemize}
+\item \verb|readNIfTI|: read in data
+\item \verb|graphics::image|: display matrix data
+\item \verb|oro.nifti::image|: display \verb|nifti| data
+\item \verb|oro.nifti::orthographic|: display 3-planes of an image
+\item \verb|oro.nifti::overlay|: display overlay of 2 images (NA are not plotting in \verb|y| image)
+\item \verb|fslr::niftiarr(x,y|: Copy \verb|nifti| header from object \verb|x| and put in new \verb|array| \verb|y| into data part
+\end{itemize}
+

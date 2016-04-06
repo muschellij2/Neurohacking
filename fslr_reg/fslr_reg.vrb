@@ -1,0 +1,6 @@
+\frametitle{fslr: Image Registration (Non-Linear)}
+
+\begin{tabular}{cc}
+\includegraphics[width=0.5\linewidth]{Template_Brain.png} & \includegraphics[width=0.5\linewidth]{FNIRT_Reg_Image.png}
+\end{tabular}
+

@@ -1,0 +1,279 @@
+% $ biblatex auxiliary file $
+% $ biblatex version 2.4 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\entry{avants2011reproducible}{article}{}
+  \name{author}{6}{}{%
+    {{}%
+     {Avants}{A.}%
+     {Brian~B}{B.~B.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Tustison}{T.}%
+     {Nicholas~J}{N.~J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Song}{S.}%
+     {Gang}{G.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Cook}{C.}%
+     {Philip~A}{P.~A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Klein}{K.}%
+     {Arno}{A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Gee}{G.}%
+     {James~C}{J.~C.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {Elsevier}%
+  }
+  \strng{namehash}{ABB+1}
+  \strng{fullhash}{ABBTNJSGCPAKAGJC1}
+  \field{sortinit}{A}
+  \field{number}{3}
+  \field{pages}{2033\bibrangedash 2044}
+  \field{title}{A reproducible evaluation of ANTs similarity metric performance
+  in brain image registration}
+  \field{volume}{54}
+  \field{journaltitle}{Neuroimage}
+  \field{year}{2011}
+\endentry
+
+\entry{guillemaud1997estimating}{article}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Guillemaud}{G.}%
+     {R{\'e}gis}{R.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Brady}{B.}%
+     {Michael}{M.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {IEEE}%
+  }
+  \strng{namehash}{GRBM1}
+  \strng{fullhash}{GRBM1}
+  \field{sortinit}{G}
+  \field{number}{3}
+  \field{pages}{238\bibrangedash 251}
+  \field{title}{Estimating the bias field of MR images}
+  \field{volume}{16}
+  \field{journaltitle}{Medical Imaging, IEEE Transactions on}
+  \field{year}{1997}
+\endentry
+
+\entry{shinohara2013normalization}{article}{}
+  \name{author}{10}{}{%
+    {{}%
+     {Shinohara}{S.}%
+     {Russell~T}{R.~T.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Sweeney}{S.}%
+     {Elizabeth~M}{E.~M.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Goldsmith}{G.}%
+     {Jeff}{J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Shiee}{S.}%
+     {Navid}{N.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Mateen}{M.}%
+     {Farrah~J}{F.~J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Calabresi}{C.}%
+     {Peter~A}{P.~A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Jarso}{J.}%
+     {Samson}{S.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Pham}{P.}%
+     {Dzung~L}{D.~L.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Reich}{R.}%
+     {Daniel~S}{D.~S.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Crainiceanu}{C.}%
+     {Ciprian~M}{C.~M.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {bepress}%
+  }
+  \strng{namehash}{SRT+1}
+  \strng{fullhash}{SRTSEMGJSNMFJCPAJSPDLRDSCCM1}
+  \field{sortinit}{S}
+  \field{title}{Normalization Techniques for Statistical Inference from
+  Magnetic Resonance Imaging}
+  \field{year}{2013}
+\endentry
+
+\entry{sled1998nonparametric}{article}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Sled}{S.}%
+     {John~G}{J.~G.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Zijdenbos}{Z.}%
+     {Alex~P}{A.~P.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Evans}{E.}%
+     {Alan~C}{A.~C.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {IEEE}%
+  }
+  \strng{namehash}{SJGZAPEAC1}
+  \strng{fullhash}{SJGZAPEAC1}
+  \field{sortinit}{S}
+  \field{number}{1}
+  \field{pages}{87\bibrangedash 97}
+  \field{title}{A nonparametric method for automatic correction of intensity
+  nonuniformity in MRI data}
+  \field{volume}{17}
+  \field{journaltitle}{Medical Imaging, IEEE Transactions on}
+  \field{year}{1998}
+\endentry
+
+\entry{tustison2010n4itk}{article}{}
+  \name{author}{7}{}{%
+    {{}%
+     {Tustison}{T.}%
+     {Nicholas~J}{N.~J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Avants}{A.}%
+     {Brian~B}{B.~B.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Cook}{C.}%
+     {Philip~A}{P.~A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Zheng}{Z.}%
+     {Yuanjie}{Y.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Egan}{E.}%
+     {Alexander}{A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Yushkevich}{Y.}%
+     {Paul~A}{P.~A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Gee}{G.}%
+     {James~C}{J.~C.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {IEEE}%
+  }
+  \strng{namehash}{TNJ+1}
+  \strng{fullhash}{TNJABBCPAZYEAYPAGJC1}
+  \field{sortinit}{T}
+  \field{number}{6}
+  \field{pages}{1310\bibrangedash 1320}
+  \field{title}{N4ITK: improved N3 bias correction}
+  \field{volume}{29}
+  \field{journaltitle}{Medical Imaging, IEEE Transactions on}
+  \field{year}{2010}
+\endentry
+
+\entry{zhang2001segmentation}{article}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Zhang}{Z.}%
+     {Yongyue}{Y.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Brady}{B.}%
+     {Michael}{M.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Smith}{S.}%
+     {Stephen}{S.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {IEEE}%
+  }
+  \strng{namehash}{ZYBMSS1}
+  \strng{fullhash}{ZYBMSS1}
+  \field{sortinit}{Z}
+  \field{number}{1}
+  \field{pages}{45\bibrangedash 57}
+  \field{title}{Segmentation of brain MR images through a hidden Markov random
+  field model and the expectation-maximization algorithm}
+  \field{volume}{20}
+  \field{journaltitle}{Medical Imaging, IEEE Transactions on}
+  \field{year}{2001}
+\endentry
+
+\lossort
+\endlossort
+
+\endinput

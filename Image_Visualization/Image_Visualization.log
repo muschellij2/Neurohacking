@@ -1,8 +1,8 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2015.1.4)  25 JAN 2015 23:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2015.1.4)  26 JAN 2015 12:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**Image_Visualization.tex
+**Image_Visualization
 (./Image_Visualization.tex
 LaTeX2e <2014/05/01>
 Babel <3.9l> and hyphenation patterns for 79 languages loaded.
@@ -1167,7 +1167,7 @@ LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10.95> not available
 (Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 7.
 LaTeX Font Info:    Try loading font information for OMS+cmtt on input line 8.
 
-(/Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/omscmtt.fd
+(/usr/local/texlive/texmf-local/tex/latex/Sweave/tex/latex/omscmtt.fd
 File: omscmtt.fd 
 )
 LaTeX Font Info:    Font shape `OMS/cmtt/m/n' in size <10.95> not available
@@ -1330,12 +1330,12 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 286.
  ) 
 Here is how much of TeX's memory you used:
  17088 strings out of 493109
- 328090 string characters out of 6135005
+ 328072 string characters out of 6135005
  394847 words of memory out of 5000000
  20067 multiletter control sequences out of 15000+600000
  11020 words of font info for 41 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 56i,11n,65p,506b,524s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,11n,65p,502b,524s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pf
 b></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb
 ></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb>
@@ -1343,7 +1343,7 @@ b></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb
 usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><
 /usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></
 usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Image_Visualization.pdf (11 pages, 339923 bytes).
+Output written on Image_Visualization.pdf (11 pages, 340099 bytes).
 PDF statistics:
  134 PDF objects out of 1000 (max. 8388607)
  87 compressed objects within 1 object stream

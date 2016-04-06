@@ -1,0 +1,431 @@
+\documentclass[11pt]{beamer}
+\usetheme{Warsaw}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{graphicx}
+\author{John Muschelli}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{calc,intersections}
+
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{positioning}
+\setbeamertemplate{navigation symbols}{}%remove navigation symbols
+
+\title{Image Processing with fslr}
+%\setbeamercovered{transparent} 
+%\setbeamertemplate{navigation symbols}{} 
+%\logo{} 
+\institute{Johns Hopkins Bloomberg School of Public Health} 
+%\date{} 
+%\subject{} 
+\setlength{\topsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\partopsep}{1pt}
+\setbeamertemplate{footline}[frame number]
+
+\usepackage[
+  natbib = true,
+    backend=bibtex,
+]{biblatex}
+\bibliography{fslr_reg}
+\AtEveryBibitem{
+\clearfield{note}
+% \clearlist{address}
+% \clearfield{eprint}
+% \clearfield{isbn}
+% \clearfield{issn}
+% \clearlist{location}
+% \clearfield{month}
+% \clearfield{series}
+} % clears language
+
+
+\newcommand {\framedgraphic}[2] {
+    \begin{frame}{#1}
+        \begin{center}
+            \includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{#2}
+        \end{center}
+    \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+%\begin{frame}
+%\tableofcontents
+%\end{frame}
+
+<<label=opts, results='hide', echo=FALSE, message = FALSE, warning=FALSE>>=
+library(knitr)
+library(highr)
+opts_chunk$set(echo=TRUE, prompt=FALSE, message=FALSE, warning=FALSE, comment="", dev='png', out.height='0.5\\textheight,keepaspectratio',
+               out.width='\\textwidth')
+knit_hooks$set(inline = function(x) { 
+  if (is.numeric(x)) return(knitr:::format_sci(x, 'latex')) 
+  hi_latex(x) 
+}) 
+setwd("~/Dropbox/Neurohacking/fslr_reg/")
+@
+
+
+\begin{frame}[fragile]{FSL and fslr}
+
+\begin{itemize}
+\item FSL is a comprehensive library of analysis tools for fMRI, MRI and DTI brain imaging data. 
+	\begin{itemize}
+	\item Collection of routines in C, C++
+	\end{itemize}
+\item fslr: port of FSL into R
+\item The two functions we focus on are: 
+\begin{enumerate}
+\item Image inhomogeneity correction (using FAST \citep{zhang2001segmentation})
+\item Image registration
+\end{enumerate} 
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Installing fslr}
+First, you must Install FSL \href{http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation}{http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation}.  \\
+\vspace{0.5cm}
+\verb|fslr| is installed on CRAN, but the development arm of \verb|fslr| is most likely the best to install, using the \verb|devtools| package:
+
+<<install_devtools, eval=FALSE>>=
+if (!require(devtools)){
+	install.packages('devtools')
+}
+devtools::install_github("muschellij2/fslr")
+@
+\end{frame}
+
+\begin{frame}[fragile]{Structure of fslr functions}
+
+
+\tikzstyle{bblock} = [rectangle, draw, text width=7em, text centered, minimum height=2em, rounded corners, align=flush center]
+\tikzstyle{line} = [draw, text centered , -latex']
+\tikzstyle{line node} = [draw, fill=white, font=\tiny ]
+\tikzstyle{block} = [rectangle, draw, text width=5em, text centered, minimum height=4em, rounded corners]    
+
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance = .5cm, every node/.style={rectangle,fill=white},  transform shape]
+% Place nodes
+\node [bblock] (fname) {Character filename};
+%\node [bblock, right=1cm of fname] (nim) {\verb|nifti| object};
+\node [bblock, below right=1cm and 0.1cm of fname] (fslr_func) {fslr function (call FSL function) };
+%\node [bblock, above right=1cm and 0.1cm of fslr_func] (nim) {nifti object in R };
+\node [bblock, right=3cm of fname] (nim) {nifti object in R };
+\node [bblock, below left=1cm and 0.1cm of fslr_func] (nii_back) { Return nifti object to R };
+\node [bblock, right=3cm of nii_back] (write) { Write Image to Disk };
+
+
+% Draw edges
+%\path [line] (nim) -| node[xshift=-0.1cm] {} ([xshift=.1 cm]fslr_func.north);
+%\path [line] (fname) -| node[xshift=0.1cm] {or} ([xshift=-.1 cm]fslr_func.north);
+\path [line] (nim) -| node {} (fslr_func.north);
+\path [line] (fname) -| node {or} (fslr_func.north);
+%\path [line] (fname) -| ([xshift=-.1 cm]fslr_func.north);
+\path [line] ([xshift=.1 cm]fslr_func.south) |- node[xshift=0.1cm] {} (write);
+\path [line] ([xshift=-.1 cm]fslr_func.south) |- node[xshift=0.1cm] {and/or} (nii_back);
+%\path [line] ([xshift=-.1 cm]fslr_func.south) |- (nii_back);
+%\path [line] (fslr_func) |- (write);
+%\coordinate[xshift=0.1 cm] (fslr_func) at (write);
+%\path [line] (fslr_func) |- (write)+(0,0.1 cm);
+
+\end{tikzpicture}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Interactive/GUI vs. Terminal R}
+
+In general, GUI-based apps do not inherit the shell environment (aka if \verb|FSLDIR| is defined in your Terminal, RStudio doesn't see it).
+
+For fslr to work, it must know where the directory FSL was installed.  If \verb|FSLDIR| is found, it will be used.  You can check this by 2 ways:
+
+<<check_fsl>>=
+Sys.getenv("FSLDIR")
+library(fslr)
+have.fsl()
+@
+
+If \verb|have.fsl()= FALSE| then you must specify the path using:
+
+<<check_fsl_set, eval=FALSE>>=
+options(fsl.path="/my/path/to/fsl")
+@
+
+<<check_fsl_set_real, eval=TRUE, echo=FALSE>>=
+options(fsl.path="/usr/local/fsl")
+@
+
+\end{frame}
+
+
+\begin{frame}[fragile]{fslmaths: Math with FSL}
+\verb|fslmaths| (in fslr) calls \verb|fslmaths| from FSL (see \verb|fslr::fslmaths.help()| for help):
+Let's read an image in using \verb|readNIfTI| from \verb|oro.nifti|:
+
+<<read_img, eval=TRUE>>=
+library(oro.nifti)
+nim = readNIfTI("Output_3D_File.nii.gz", 
+reorient=FALSE)
+@
+\end{frame}
+
+\begin{frame}[fragile]{fslstats: Stats with FSL}
+\verb|fslstats| (in fslr) calls \verb|fslstats| from FSL (see \verb|fslr::fslstats.help()| for help):
+
+We can do statistics (e.g.~mean) in R and fslr:
+<<ants_math, eval=TRUE>>=
+mean(nim)
+fslstats(nim, opts="-m")
+fslstats("Output_3D_File.nii.gz", opts = "-m")
+@
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{fslr: Bias Field Correction}
+
+\verb|fslr::fsl_biascorrect| calls \verb|fast| from FSL which incorporates the bias field correction by \citet{guillemaud1997estimating}:
+
+<<n3correct, eval=TRUE, cache = TRUE>>=
+fast_img = fsl_biascorrect(nim, 
+	retimg=TRUE)
+@
+\end{frame}
+
+<<plot_n4, eval=TRUE, echo = FALSE, cache=TRUE, results='hide'>>=
+library(oro.nifti)
+library(fslr)
+png("Orig_Image.png")
+orthographic(robust_window(nim), text="Original Image")
+dev.off()
+png("FAST_Image.png")
+orthographic(robust_window(fast_img), text = "Bias-Corrected\n Image")
+dev.off()
+orig_wind = quantile(c(nim), probs = c(0, 0.999))
+png("FAST_Image_Orig_Window.png")
+orthographic(window_img(fast_img, window=orig_wind), 
+             text = "Bias-Corrected\n Image")
+dev.off()
+fast_diff = nim - fast_img
+png("FAST_Diff_Image.png")
+orthographic(fast_diff, text = paste0("Original Image\nMinus", 
+                                      "\nBias-Corrected\n Image"))
+dev.off()
+@
+
+\begin{frame}[fragile]{fslr: Bias Field Correction}
+
+\begin{tabular}{cc}
+\includegraphics[width=0.5\linewidth]{Orig_Image.png} & \includegraphics[width=0.5\linewidth]{FAST_Image.png}
+\end{tabular}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{fslr: Brain Extraction}
+
+FSL's Brain Extraction Tool (BET) can be used for skull stripping.  It is fast, robust, and one of the most popular for this task.  \verb|fslr::fslbet| is used to call the FSL commands \verb|bet2|, which does brain extraction or \verb|bet|, which does brain extraction with additional options.
+
+<<bet, eval=TRUE, cache = TRUE>>=
+bet_fast = fslbet(infile=fast_img, retimg=TRUE)
+@
+\end{frame}
+
+
+<<plot_bet, eval=TRUE, echo = FALSE, cache=TRUE, results='hide'>>=
+library(scales)
+png("BET_Image.png")
+orthographic(robust_window(bet_fast), text="Brain-Extracted\n Image")
+dev.off()
+png("BET_Image_Overlay.png")
+ortho2(robust_window(fast_img),
+       cal_img(bet_fast > 0),
+       NA.y=TRUE,
+       col.y=alpha("red", 0.5),
+       text = "Brain Mask Overlay")
+dev.off()
+@
+
+\begin{frame}[fragile]{fslr: Brain Extraction Results}
+
+\begin{tabular}{cc}
+\includegraphics[width=0.5\linewidth]{BET_Image.png} & \includegraphics[width=0.5\linewidth]{BET_Image_Overlay.png}
+\end{tabular}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{fslr: Better Brain Extraction}
+
+There are some parts of the brain not segmented in the image.  We can estimate the center of gravity (COG) from the brain extracted image, and then re-run bet with the new COG to get a better result
+
+<<bet_cog, eval=TRUE, cache = TRUE>>=
+cog = cog(bet_fast, ceil=TRUE)
+bet_fast2 = fslbet(infile=fast_img, retimg=TRUE, 
+                   opts = 
+                     paste("-c", paste(cog, collapse= " ")))
+@
+\end{frame}
+
+<<plot_bet2, eval=TRUE, echo = FALSE, cache=TRUE, results='hide'>>=
+library(scales)
+png("BET_Image2.png")
+orthographic(robust_window(bet_fast2), 
+             text="Post-COG\n Brain-Extracted\n Image")
+dev.off()
+png("BET_Image_Overlay2.png")
+ortho2(robust_window(fast_img),
+       cal_img(bet_fast2 > 0),
+       NA.y=TRUE,
+       col.y=alpha("red", 0.5), 
+       text = "Post-COG \n Brain Mask Overlay")
+dev.off()
+@
+
+\begin{frame}[fragile]{fslr: Better Brain Extraction Results}
+
+\begin{tabular}{cc}
+Before COG & After COG \\
+\includegraphics[width=0.4\linewidth]{BET_Image.png} & \includegraphics[width=0.4\linewidth]{BET_Image2.png} \\
+\includegraphics[width=0.4\linewidth]{BET_Image_Overlay.png} & \includegraphics[width=0.4\linewidth]{BET_Image_Overlay2.png}
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}[fragile]{fslr: Image Registration (Linear)}
+
+From FSL: ``FLIRT (FMRIB's Linear Image Registration Tool) is a fully automated robust and accurate tool for linear (affine) intra- and inter-modal brain image registration''
+
+\verb|fslr::flirt| takes in a input filename (or nifti) and a reference filename (or nifti) to transform the infile to:
+<<image_reg, eval=TRUE, cache = TRUE>>=
+registered_fast = flirt(infile=fast_img, 
+	reffile = "MNI152_T1_1mm.nii.gz",
+	dof = 6,
+	retimg = TRUE)
+@
+\end{frame}
+
+<<plot_images, eval=TRUE, echo = FALSE, cache=TRUE, results='hide'>>=
+template = readNIfTI("MNI152_T1_1mm.nii.gz", reorient=FALSE)
+png("Template.png")
+orthographic(template, text="Template Image")
+dev.off()
+template_brain = readNIfTI("MNI152_T1_1mm_brain.nii.gz", reorient=FALSE)
+png("Template_brain.png")
+orthographic(template_brain, text="Template Brain \n Image")
+dev.off()
+png("FLIRT_Reg_Image.png")
+orthographic(robust_window(registered_fast), 
+text = "Registered \n FAST-Corrected\n Image")
+dev.off()
+@
+
+
+\begin{frame}[fragile]{fslr: Image Registration (Linear) Results}
+
+\begin{tabular}{cc}
+\includegraphics[width=0.5\linewidth]{Template.png} & \includegraphics[width=0.5\linewidth]{FLIRT_Reg_Image.png}
+\end{tabular}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{fslr: Image Registration (Linear) Brain}
+
+Let's use linear registration with brains only:
+<<image_reg_bet, eval=TRUE, cache = TRUE>>=
+registered_fast_brain = flirt(infile=bet_fast2, 
+  reffile = "MNI152_T1_1mm_brain.nii.gz",
+	dof = 6,
+	retimg = TRUE)
+@
+\end{frame}
+
+<<plot_images_bet, eval=TRUE, echo = FALSE, cache=TRUE, results='hide'>>=
+png("FLIRT_Reg_Image_Brain.png")
+orthographic(robust_window(registered_fast_brain), 
+text = "Registered \n FAST-Corrected\n Brain")
+dev.off()
+@
+
+
+\begin{frame}[fragile]{fslr: Image Registration (Linear) Results}
+
+\begin{tabular}{cc}
+\includegraphics[width=0.5\linewidth]{Template_Brain.png} & \includegraphics[width=0.5\linewidth]{FLIRT_Reg_Image_Brain.png}
+\end{tabular}
+
+\end{frame}
+
+<<image_affine_bet, eval=TRUE, cache = TRUE, echo=FALSE>>=
+affine_fast_brain = flirt(infile=bet_fast2, 
+  reffile = "MNI152_T1_1mm_brain.nii.gz",
+  dof = 12,
+	retimg = TRUE)
+png("FLIRT_Affine_Image_Brain.png")
+orthographic(robust_window(affine_fast_brain), 
+text = "Affine-Registered \n FAST-Corrected\n Brain")
+dev.off()
+@
+
+\begin{frame}[fragile]{fslr: Image Registration (Affine) Results}
+Instead of a rigid-body registration, let us try an affine (still linear) registration:
+\begin{tabular}{cc}
+\includegraphics[width=0.5\linewidth]{Template_Brain.png} & \includegraphics[width=0.5\linewidth]{FLIRT_Affine_Image_Brain.png}
+\end{tabular}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{fslr: Image Registration (Non-Linear)}
+FNIRT performs non-linear registration. An affine registration must be performed before using FNIRT.
+
+FLIRT can also do Affine registrations (DOF = 12), and \verb|fslr::fnirt_with_affine| will perform an affine registration than FNIRT.  You want to perform this on skull-stripped images. 
+
+
+<<image_fnirt, eval=TRUE, cache = TRUE>>=
+fnirt_fast = fnirt_with_affine(infile=bet_fast2, 
+	reffile = "MNI152_T1_1mm_brain.nii.gz",
+	outfile = "FNIRT_to_Template", retimg=TRUE)
+@
+\end{frame}
+
+<<plot_fnirt_images, eval=TRUE, echo = FALSE, cache=TRUE, results='hide'>>=
+png("FNIRT_Reg_Image.png")
+orthographic(robust_window(fnirt_fast), text = "FNIRT Registered \n FAST-Corrected\n Image")
+dev.off()
+@
+
+
+\begin{frame}[fragile]{fslr: Image Registration (Non-Linear)}
+
+\begin{tabular}{cc}
+\includegraphics[width=0.5\linewidth]{Template_Brain.png} & \includegraphics[width=0.5\linewidth]{FNIRT_Reg_Image.png}
+\end{tabular}
+
+\end{frame}
+
+
+
+\begin{frame}[t,allowframebreaks]
+  \frametitle{References}
+  \printbibliography
+ \end{frame}
+ 
+\end{document}

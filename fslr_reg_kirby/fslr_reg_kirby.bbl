@@ -1,0 +1,82 @@
+% $ biblatex auxiliary file $
+% $ biblatex version 2.4 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\entry{guillemaud1997estimating}{article}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Guillemaud}{G.}%
+     {R{\'e}gis}{R.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Brady}{B.}%
+     {Michael}{M.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {IEEE}%
+  }
+  \strng{namehash}{GRBM1}
+  \strng{fullhash}{GRBM1}
+  \field{sortinit}{G}
+  \field{number}{3}
+  \field{pages}{238\bibrangedash 251}
+  \field{title}{Estimating the bias field of MR images}
+  \field{volume}{16}
+  \field{journaltitle}{Medical Imaging, IEEE Transactions on}
+  \field{year}{1997}
+\endentry
+
+\entry{zhang2001segmentation}{article}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Zhang}{Z.}%
+     {Yongyue}{Y.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Brady}{B.}%
+     {Michael}{M.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Smith}{S.}%
+     {Stephen}{S.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {IEEE}%
+  }
+  \strng{namehash}{ZYBMSS1}
+  \strng{fullhash}{ZYBMSS1}
+  \field{sortinit}{Z}
+  \field{number}{1}
+  \field{pages}{45\bibrangedash 57}
+  \field{title}{Segmentation of brain MR images through a hidden Markov random
+  field model and the expectation-maximization algorithm}
+  \field{volume}{20}
+  \field{journaltitle}{Medical Imaging, IEEE Transactions on}
+  \field{year}{2001}
+\endentry
+
+\lossort
+\endlossort
+
+\endinput

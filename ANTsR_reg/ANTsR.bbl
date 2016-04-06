@@ -1,0 +1,155 @@
+% $ biblatex auxiliary file $
+% $ biblatex version 2.4 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\entry{avants2011reproducible}{article}{}
+  \name{author}{6}{}{%
+    {{}%
+     {Avants}{A.}%
+     {Brian~B}{B.~B.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Tustison}{T.}%
+     {Nicholas~J}{N.~J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Song}{S.}%
+     {Gang}{G.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Cook}{C.}%
+     {Philip~A}{P.~A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Klein}{K.}%
+     {Arno}{A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Gee}{G.}%
+     {James~C}{J.~C.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {Elsevier}%
+  }
+  \strng{namehash}{ABB+1}
+  \strng{fullhash}{ABBTNJSGCPAKAGJC1}
+  \field{sortinit}{A}
+  \field{number}{3}
+  \field{pages}{2033\bibrangedash 2044}
+  \field{title}{A reproducible evaluation of ANTs similarity metric performance
+  in brain image registration}
+  \field{volume}{54}
+  \field{journaltitle}{Neuroimage}
+  \field{year}{2011}
+\endentry
+
+\entry{sled1998nonparametric}{article}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Sled}{S.}%
+     {John~G}{J.~G.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Zijdenbos}{Z.}%
+     {Alex~P}{A.~P.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Evans}{E.}%
+     {Alan~C}{A.~C.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {IEEE}%
+  }
+  \strng{namehash}{SJGZAPEAC1}
+  \strng{fullhash}{SJGZAPEAC1}
+  \field{sortinit}{S}
+  \field{number}{1}
+  \field{pages}{87\bibrangedash 97}
+  \field{title}{A nonparametric method for automatic correction of intensity
+  nonuniformity in MRI data}
+  \field{volume}{17}
+  \field{journaltitle}{Medical Imaging, IEEE Transactions on}
+  \field{year}{1998}
+\endentry
+
+\entry{tustison2010n4itk}{article}{}
+  \name{author}{7}{}{%
+    {{}%
+     {Tustison}{T.}%
+     {Nicholas~J}{N.~J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Avants}{A.}%
+     {Brian~B}{B.~B.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Cook}{C.}%
+     {Philip~A}{P.~A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Zheng}{Z.}%
+     {Yuanjie}{Y.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Egan}{E.}%
+     {Alexander}{A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Yushkevich}{Y.}%
+     {Paul~A}{P.~A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Gee}{G.}%
+     {James~C}{J.~C.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {IEEE}%
+  }
+  \strng{namehash}{TNJ+1}
+  \strng{fullhash}{TNJABBCPAZYEAYPAGJC1}
+  \field{sortinit}{T}
+  \field{number}{6}
+  \field{pages}{1310\bibrangedash 1320}
+  \field{title}{N4ITK: improved N3 bias correction}
+  \field{volume}{29}
+  \field{journaltitle}{Medical Imaging, IEEE Transactions on}
+  \field{year}{2010}
+\endentry
+
+\lossort
+\endlossort
+
+\endinput

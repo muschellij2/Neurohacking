@@ -1,0 +1,4 @@
+\frametitle{Functions of Note}
+
+\verb|extrantsr::preprocess_mri_within| - will N4 (or N3) correct images, co-register scans to the first (T1w usually) scan, skull strip the image (using BET)
+

@@ -1,0 +1,75 @@
+---
+title: "Visualizing  Images from NIfTI file"
+author: "Bui Dinh Ngoc"
+date: "June 29, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+## Read an NIfTI file
+This is example to read a NIfTI file and display an image , by using this example code you must be install package <b>oro.nifti)</b> first.
+
+#### Download a NIfTI file from Neurohacking_data repository
+
+```{r}
+library(oro.nifti)
+
+url <- "https://raw.githubusercontent.com/muschellij2/Neurohacking_data/master/BRAINIX/NIfTI/Output_3D_File.nii.gz"
+destfile <- "Output_3D_File.nii.gz"
+name <- file.path(getwd(), destfile)
+download.file(url, destfile,mode="wb") # NIfTI is binaryfile format
+nii_T1 <- readNIfTI(destfile)
+
+
+```
+
+#### Show meta data from the file
+
+```{r}
+
+print (nii_T1)
+
+```
+
+As you see this file contain 22 images  512 x 512 pixels, one pixel using 16 bits
+
+#### Visial an Slice an NIfTI file
+
+```{r}
+image(nii_T1,z=11,plot.type="single") 
+
+```
+
+#### Visualizing All Slices
+
+```{r}
+
+image(nii_T1) 
+
+```
+
+####  All Planes: Coronal, Sagittal, Axial
+
+```{r}
+
+orthographic(nii_T1,xyz=c(200,220,11)) 
+
+```
+
+#### Backmapping One Slice
+
+```{r}
+is_btw_300_400<- ((nii_T1>300) &
+(nii_T1<400))
+nii_T1_mask<-nii_T1
+nii_T1_mask[!is_btw_300_400]=NA
+overlay(nii_T1,nii_T1_mask,z=11,plot.type="
+single") 
+
+```
+
+This example not show how to change or write NIfTI file.
+

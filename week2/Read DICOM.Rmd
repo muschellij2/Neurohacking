@@ -1,0 +1,45 @@
+---
+title: "Visualizing an Image from DICOM file"
+author: "Bui Dinh Ngoc"
+date: "June 29, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+## Read an DICOM file
+This is example to read a DICOM file and display an image , by using this example code you must be install package <b>oro.dicom</b> first.
+
+#### Download a DICOM file from Neurohacking_data repository
+
+```{r}
+library(oro.dicom)
+
+url <- "https://raw.githubusercontent.com/muschellij2/Neurohacking_data/master/BRAINIX/DICOM/T1/IM-0001-0001.dcm"
+destfile <- "IM-0001-0001.dcm"
+name <- file.path(getwd(), destfile)
+download.file(url, destfile,mode="wb") # DICOM is binaryfile format
+dcm <- readDICOMFile(destfile)
+
+
+```
+
+#### Show Manufacturer from file header by call extractHeader
+
+```{r}
+extractHeader(dcm$hdr, "Manufacturer", numeric=FALSE)
+
+```
+
+
+#### Read an DICOM file
+
+```{r}
+image(t(dcm$img), col=grey(0:64/64), axes=FALSE, xlab="", ylab="",
+                main="Example image from DICOM file")
+
+```
+
+

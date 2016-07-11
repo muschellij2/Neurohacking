@@ -1,0 +1,137 @@
+---
+title: "Basic Data Manipulation"
+author: "Bui Dinh Ngoc"
+date: "June 30, 2016"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+## Read an NIfTI file
+This is example to read some NIfTI files and execute some basic data manipulation, by using this example code you must be install package <b>oro.nifti,fslr,AnalyzeFMRI</b> first.
+
+#### Download a NIfTI file from Neurohacking_data repository
+
+```{r}
+library(oro.nifti)
+
+url <- "https://raw.githubusercontent.com/muschellij2/Neurohacking/master/Basic_Data_Manipulations/Kirby21/SUBJ0001-01-MPRAGE.nii.gz"
+destfile <- "SUBJ0001-01-MPRAGE.nii.gz"
+fname <- file.path(getwd(), destfile)
+download.file(url, destfile,mode="wb") # NIfTI is binaryfile format
+
+maskurl <- "https://raw.githubusercontent.com/muschellij2/Neurohacking/master/Basic_Data_Manipulations/Kirby21/SUBJ0001_mask.nii.gz"
+maskdestfile <- "SUBJ0001_mask.nii.gz"
+maskfname <- file.path(getwd(), maskdestfile)
+download.file(maskurl, maskdestfile,mode="wb") # NIfTI is binaryfile format
+
+
+
+T1 <- readNIfTI(fname,reorient=FALSE)
+
+mask <- readNIfTI(maskfname, reorient=FALSE) 
+
+
+```
+
+#### Show meta data from MPRAGE file
+
+```{r}
+
+print (T1)
+
+```
+
+As you see the Dimension is : 170 x 256 x 256
+
+
+#### Show meta data from MPRAGE file
+
+```{r}
+
+print (mask)
+
+```
+
+As you see the of mask is same dimension (170 x 256 x 256).
+
+
+#### Visualizing orthographic T1
+
+```{r}
+orthographic(T1)
+
+```
+
+#### Visualizing orthographic mask
+
+```{r}
+orthographic(mask)
+
+```
+
+#### Visualizing orthographic T1*mask
+
+```{r}
+library(fslr) # you may need install fslr
+
+masked.T1 <- niftiarr(T1, T1*mask)
+
+orthographic(masked.T1)
+
+```
+
+#### Visualizing orthographic subtract
+
+```{r}
+library(fslr) # you may need install fslr
+
+
+followurl <- "https://raw.githubusercontent.com/muschellij2/Neurohacking/master/Basic_Data_Manipulations/Kirby21/SUBJ0001-02-MPRAGE.nii.gz"
+followdestfile <- "SUBJ0001-02-MPRAGE.nii.gz"
+followfname <- file.path(getwd(), followdestfile)
+download.file(followurl, followdestfile,mode="wb")
+
+T1.follow <- readNIfTI(followfname, reorient=FALSE)
+
+subtract.T1 <- niftiarr(T1, T1.follow - T1)
+orthographic(subtract.T1)
+
+
+```
+
+
+#### Visualizing orthographic subtract process
+
+```{r}
+library(fslr) # you may need install fslr
+
+
+baseurl <- "https://raw.githubusercontent.com/muschellij2/Neurohacking/master/Basic_Data_Manipulations/Kirby21/SUBJ0001-01-MPRAGE_N3.nii.gz"
+basefile <- "SUBJ0001-01-MPRAGE_N3.nii.gz"
+basefname <- file.path(getwd(), basefile)
+download.file(baseurl, basefile,mode="wb")
+
+
+
+followurl <- "https://raw.githubusercontent.com/muschellij2/Neurohacking/master/Basic_Data_Manipulations/Kirby21/SUBJ0001-02-MPRAGE_N3_REG.nii.gz"
+followfile <- "SUBJ0001-02-MPRAGE_N3_REG.nii.gz"
+followfname <- file.path(getwd(), followfile)
+download.file(followurl, followfile,mode="wb")
+
+
+T1.base.process <- readNIfTI(basefname, reorient=FALSE)
+T1.follow.process <- readNIfTI(followfname, reorient=FALSE)
+
+subtract.T1.process <- niftiarr(T1, T1.follow.process - T1.base.process)
+orthographic(subtract.T1.process)
+
+
+```
+
+Full genarated page can be found here http://rpubs.com/ngocbd/Basic-Data-Manipulation
+
+
+

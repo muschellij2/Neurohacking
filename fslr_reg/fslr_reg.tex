@@ -209,7 +209,7 @@ For fslr to work, it must know where the directory FSL was installed.  If \verb|
 \hlkwd{have.fsl}\hlstd{()}
 \end{alltt}
 \begin{verbatim}
-[1] FALSE
+[1] TRUE
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -260,14 +260,12 @@ We can do statistics (e.g.~mean) in R and fslr:
 \hlkwd{fslstats}\hlstd{(nim,} \hlkwc{opts}\hlstd{=}\hlstr{"-m"}\hlstd{)}
 \end{alltt}
 \begin{verbatim}
-FSLDIR='/usr/local/fsl'; export FSLDIR; sh "${FSLDIR}/etc/fslconf/fsl.sh"; FSLOUTPUTTYPE=NIFTI_GZ; export FSLOUTPUTTYPE; $FSLDIR/bin/fslstats "/private/var/folders/1s/wrtqcpxn685_zk570bnx9_rr0000gr/T/RtmpTDd7xX/file15a1c2da914a5.nii.gz" -m 
 [1] "102.470113"
 \end{verbatim}
 \begin{alltt}
 \hlkwd{fslstats}\hlstd{(}\hlstr{"Output_3D_File.nii.gz"}\hlstd{,} \hlkwc{opts} \hlstd{=} \hlstr{"-m"}\hlstd{)}
 \end{alltt}
 \begin{verbatim}
-FSLDIR='/usr/local/fsl'; export FSLDIR; sh "${FSLDIR}/etc/fslconf/fsl.sh"; FSLOUTPUTTYPE=NIFTI_GZ; export FSLOUTPUTTYPE; $FSLDIR/bin/fslstats "/Users/johnmuschelli/Dropbox/Neurohacking/fslr_reg/Output_3D_File.nii.gz" -m 
 [1] "102.470113"
 \end{verbatim}
 \end{kframe}
@@ -305,9 +303,24 @@ FSLDIR='/usr/local/fsl'; export FSLDIR; sh "${FSLDIR}/etc/fslconf/fsl.sh"; FSLOU
 \end{frame}
 
 
-\begin{frame}[fragile]{fslr: Bias Field Correction - Difference Iage}
+\begin{frame}[fragile]{fslr: Bias Field Correction - Difference Image}
 
 \includegraphics[width=0.5\linewidth]{FAST_Diff_Image.png}
+
+\end{frame}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth,height=0.5\textheight,keepaspectratio]{figure/hist_plot_n4-1} 
+
+\end{knitrout}
+
+
+\begin{frame}[fragile]{fslr: Bias Field Correction - Hists}
+
+\includegraphics[width=\linewidth]{figure/hist_plot_n4-1.png}
+
 
 \end{frame}
 
@@ -315,7 +328,7 @@ FSLDIR='/usr/local/fsl'; export FSLDIR; sh "${FSLDIR}/etc/fslconf/fsl.sh"; FSLOU
 
 \begin{frame}[fragile]{ANTsR: Bias Field Correction}
 
-We use the bias_correct function in extrantsr to do an inhomogeneity correction (N3 or N4) for  the T1w image.  Here we will do N4 inhomogeneity correction:
+We use the bias\_correct function in extrantsr to do an inhomogeneity correction (N3 or N4) for  the T1w image.  Here we will do N4 inhomogeneity correction:
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}

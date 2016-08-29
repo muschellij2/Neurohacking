@@ -245,9 +245,50 @@ dev.off()
 \end{frame}
 
 
-\begin{frame}[fragile]{fslr: Bias Field Correction - Difference Iage}
+\begin{frame}[fragile]{fslr: Bias Field Correction - Difference Image}
 
 \includegraphics[width=0.5\linewidth]{FAST_Diff_Image.png}
+
+\end{frame}
+
+
+<<hist_plot_n4, fig.height=3.5, fig.width=7, eval=TRUE, echo = FALSE, cache=TRUE, results='hide', dev='png', dpi =300>>=
+library(reshape2)
+library(ggplot2)
+transparent_legend =  theme(
+    legend.background = element_rect(
+        fill="transparent"),
+    legend.key = element_rect(fill=
+        "transparent", 
+        color="transparent")
+    )
+slices = c(2, 6, 10, 14, 18)
+vals = lapply(slices, function(x) {
+    cbind(img = c(nim[,,x]), fast = c(fast_img[,,x]),
+          slice = x)
+})
+vals = do.call("rbind", vals)
+vals = data.frame(vals)
+vals = vals[ vals$img > 0 & vals$fast > 0, ]
+colnames(vals)[1:2] = c("Original Value", "Bias-Corrected Value")
+v = melt(vals, id.vars = "slice")
+g = ggplot(aes(x = value, 
+               colour = factor(slice)), 
+           data = v) + geom_line(stat = "density") + 
+  facet_wrap(~ variable)
+g = g + scale_colour_discrete(name = "Slice #")
+g = g + transparent_legend
+g = g + labs(x = "Voxel Intensity (a.u.)",
+             y = "Density")
+g = g + theme(legend.position = c(0.8, 0.5))
+print(g)
+@
+
+
+\begin{frame}[fragile]{fslr: Bias Field Correction - Hists}
+
+\includegraphics[width=\linewidth]{figure/hist_plot_n4-1.png}
+
 
 \end{frame}
 
@@ -255,7 +296,7 @@ dev.off()
 
 \begin{frame}[fragile]{ANTsR: Bias Field Correction}
 
-We use the bias_correct function in extrantsr to do an inhomogeneity correction (N3 or N4) for  the T1w image.  Here we will do N4 inhomogeneity correction:
+We use the bias\_correct function in extrantsr to do an inhomogeneity correction (N3 or N4) for  the T1w image.  Here we will do N4 inhomogeneity correction:
 
 <<n4correct, eval=TRUE, cache = TRUE>>=
 library(extrantsr)

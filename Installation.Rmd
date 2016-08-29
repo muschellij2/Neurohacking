@@ -1,0 +1,107 @@
+---
+title: "Installing ITKR and ANTsR"
+author: "John Muschelli"
+date: "August 29, 2016"
+output:
+  html_document:
+    theme: cosmo
+    toc: true
+    toc_depth: 2
+    toc_float:
+      collapsed: false
+---
+
+# Preface
+
+The course is designed for minimal system requirements or installation knowledge.  We highly encourage users to install the [VirtualBox](https://www.smart-stats-tools.org/mooc-2015)
+
+# Windows
+
+FSL will not install on a Windows machine, and the developers of FSL recommend a virtual machine to their users: [http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation/Windows](http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation/Windows).
+
+# Mac OSX
+
+## Installing Xcode
+In order to install packages with compilation in `R`, you must install `Xcode`.  For example, if you get the error: "Error: Could not find build tools necessary to build" for a package, please see [this StackOverflow Post](http://stackoverflow.com/questions/35096233/error-could-not-find-build-tools-necessary-to-build-dplyr) for a discussion and [Xcode from Apple](https://developer.apple.com/downloads/).  
+## Installing Git and CMake
+
+You need `cmake` and `git` to install `ITKR`.  Go to a `Terminal` (using spotlight or from `/Applications/Utilities/Terminal`) and type
+
+```
+which cmake
+which git
+```
+
+### Installing Git
+
+If nothing comes up for `git`, please see [https://www.atlassian.com/git/tutorials/install-git/mac-os-x](https://www.atlassian.com/git/tutorials/install-git/mac-os-x) to install `git`.
+
+### Installing CMake
+
+CMake can be installed from [https://cmake.org/download/](https://cmake.org/download/) . 
+
+#### Installing CMake from Mac DMG (recommended)
+
+If you download the CMake dmg, you must add the cmake to your PATH, by adding:
+
+```
+PATH=$PATH:/Applications/CMake.app/Contents/bin/
+export PATH
+```
+
+the the end of your `~/.bash_profile` file on your machine.
+
+You can edit `~/.bash_profile` by opening a `Terminal` (again `/Applications/Utilities/Terminal`) and typing:
+```
+vi ~/.bash_profile
+```
+
+Type the letter `i` so that the bottom says `INSERT`, go to the bottom, and paste the command from above with `PATH`.  When this is done, type `Esc + : + wq`. So that it says `:wq` at the bottom (stands for `w`rite out the file again, and then `q`uit).
+
+#### Installing CMake from Source 
+
+You can also build Cmake from source: 
+
+Download using: [https://cmake.org/files/v3.6/cmake-3.6.1.tar.gz](https://cmake.org/files/v3.6/cmake-3.6.1.tar.gz) (or the latest on their website).  Double click the `.tar.gz` file to unzip it.
+
+The README.rst file are instructions on how to build cmake.  If you open a `Terminal` (again `/Applications/Utilities/Terminal`), change directories into the directory you unzipped the `.tar.gz`, usually by:
+```
+cd ~/Downloads/cmake-3.6.1
+```
+
+and then run the following command:
+```
+./bootstrap && make && sudo make install
+```
+and type your password.
+
+## Installing R packages
+
+
+
+
+# Linux
+
+## Installing Git and CMake
+
+You need `cmake` and `git` to install `ITKR`.  Go to a `Terminal` and type
+
+```
+which cmake
+which git
+```
+to see if `git` and `cmake` are installed.
+
+### Apt-get/Ubuntu/Debian
+
+```
+sudo apt-get install cmake
+sudo apt-get install git-all
+```
+
+### Yum/Centos/RedHat
+
+```
+sudo yum install cmake
+sudo yum install git-all
+```

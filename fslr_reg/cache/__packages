@@ -7,3 +7,6 @@ oro.nifti
 stringr
 fslr
 scales
+rmarkdown
+reshape2
+ggplot2

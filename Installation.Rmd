@@ -1,5 +1,5 @@
 ---
-title: "Installing ITKR and ANTsR"
+title: "Installing Neurohacking on a Local Machine"
 author: "John Muschelli"
 date: "August 29, 2016"
 output:
@@ -13,7 +13,7 @@ output:
 
 # Preface
 
-The course is designed for minimal system requirements or installation knowledge.  We highly encourage users to install the [VirtualBox](https://www.smart-stats-tools.org/mooc-2015)
+The course is designed for minimal system requirements or installation knowledge.  We highly encourage users to install the [VirtualBox](https://www.smart-stats-tools.org/mooc-2015).  If these commands do not work, please indicate on the discussion forums.  Also, please indicate other strategies you have tried before posting/where you have looked (such as StackOverflow links).
 
 # Windows Setup
 

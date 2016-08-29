@@ -15,14 +15,15 @@ output:
 
 The course is designed for minimal system requirements or installation knowledge.  We highly encourage users to install the [VirtualBox](https://www.smart-stats-tools.org/mooc-2015)
 
-# Windows
+# Windows Setup
 
 FSL will not install on a Windows machine, and the developers of FSL recommend a virtual machine to their users: [http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation/Windows](http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation/Windows).
 
-# Mac OSX
+# Mac OSX Setup
 
 ## Installing Xcode
 In order to install packages with compilation in `R`, you must install `Xcode`.  For example, if you get the error: "Error: Could not find build tools necessary to build" for a package, please see [this StackOverflow Post](http://stackoverflow.com/questions/35096233/error-could-not-find-build-tools-necessary-to-build-dplyr) for a discussion and [Xcode from Apple](https://developer.apple.com/downloads/).  
+
 ## Installing Git and CMake
 
 You need `cmake` and `git` to install `ITKR`.  Go to a `Terminal` (using spotlight or from `/Applications/Utilities/Terminal`) and type
@@ -75,12 +76,7 @@ and then run the following command:
 ```
 and type your password.
 
-## Installing R packages
-
-
-
-
-# Linux
+# Linux Setup
 
 ## Installing Git and CMake
 
@@ -105,3 +101,140 @@ sudo apt-get install git-all
 sudo yum install cmake
 sudo yum install git-all
 ```
+
+## `fslr` setup 
+
+### RStudio vs. Terminal
+
+If you run `R` from the command line/Terminal then `FSLDIR` should be set when you installed `FSL` and you should be able to run `fslr` out of the box.
+
+If you are using `RStudio` or an `R` GUI, then you may have to make some changes to your directories for `fslr` to work.
+
+### Neurodebian `fslr` Setup
+
+If you install `FSL` (version 5.0) using Neurodebian, the following script should copy the necessary data/binaries to a path where `fslr` can find them.  
+
+```{bash, eval = FALSE}
+FSLDIR=/usr/local/fsl
+FSLSHARE=/usr/share/data
+PATH=$PATH:${FSLDIR}/bin
+
+sudo mkdir -p ${FSLDIR}/bin
+sudo cp /usr/lib/fsl/5.0/* ${FSLDIR}/bin/
+sudo mkdir -p ${FSLDIR}/data/standard 
+sudo mkdir -p ${FSLDIR}/data/atlases 
+
+sudo cp -R ${FSLSHARE}/fsl-mni152-templates/* ${FSLDIR}/data/standard/
+
+# setting up atlases
+sudo cp -R ${FSLSHARE}/harvard-oxford-atlases/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/juelich-histological-atlas/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/bangor-cerebellar-atlas/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/jhu-dti-whitematter-atlas/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/forstmann-subthalamic-nucleus-atlas/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/fsl-resting-connectivity-parcellation-atlases/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/mni-structural-atlas/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/oxford-thalamic-connectivity-atlas/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/talairach-daemon-atlas/* ${FSLDIR}/data/atlases/ 
+```
+
+### Standard FSL installation Setup
+
+If `FSL` was installed using the install scripts from the FSL website, then all files necessary should be located in `/usr/local/fsl`, and `fslr` should work out of the box.
+
+# Installing R Packages
+
+## Installing Packages from CRAN
+
+The `oro.nifti`, `oro.dicom`, and `fslr` packages are all on CRAN and can be installed using the standard `install.packages` way:
+
+```{r, eval = FALSE}
+if (!require(oro.nifti)) {
+  install.packages("oro.nifti")
+}
+if (!require(oro.dicom)) {
+  install.packages("oro.dicom")
+}
+if (!require(fslr)) {
+  install.packages("fslr")
+}
+```
+
+## Installing GitHub Packages
+
+
+Some of the packages used are not on CRAN, and must be installed using `devtools`.  
+Note below, `fslr` is included.  If you would like to use the GitHub version (in development, aka may break), then please use the code below.  Otherwise use the CRAN version.
+
+### Installing `devtools`
+
+```{r github, eval = FALSE}
+if (!require(devtools)) {
+    install.packages("devtools")
+}
+```
+
+### Installing Development version of `fslr`
+
+```{r github2, eval = FALSE}
+if (!require(fslr)) {
+  devtools::install_github("muschellij2/fslr")
+}
+```
+
+### Installing `ITKR`
+
+Installing `ITKR` requires the `cmaker` package (at the time of writing):
+
+```{r ITKR, eval = FALSE}
+if (!require(cmaker)) {
+  devtools::install_github("stnava/cmaker")
+}
+if (!require(ITKR)) {
+  devtools::install_github("stnava/ITKR")
+}
+```
+
+If the above doesn't work, and you have **double checked** CMake and git are installed, try the following command: 
+
+```{r ITKR_musch, eval = FALSE}
+if (!require(ITKR)) {
+  devtools::install_github("muschellij2/ITKR")
+}
+```
+This is a forked version of `ITKR` and may not be the most up to date, but has some changes to the install script
+
+### Installing `ANTsR` and `extrantsr`
+
+Note, if `ITKR` installation failed, then `ANTsR` installation will fail as it depends on `ITKR` and the `extrantsr` installation will fail because it depends on `ANTsR`.
+
+```{r ANTsR, eval = FALSE}
+if (!require(ANTsR)) {
+  devtools::install_github("stnava/ANTsR")
+}
+if (!require(extrantsr)) {
+  devtools::install_github("muschellij2/extrantsr")
+}
+```
+
+### Installing `ANTsR` from a Binary
+
+If `ANTsR` installation does not work above, but `ITKR` installed, you can try the release version of `ANTsR` for your respective system by downloading the tarballs from:
+[https://github.com/stnava/ANTsR/releases](https://github.com/stnava/ANTsR/releases), and installing from `install.packages`:
+
+```{r, eval = FALSE}
+path_to_tarball = "~/Downloads/ANTsR_OSX_0.3.tgz" # example - must change
+install.packages(path_to_tarball, repos = NULL)
+```
+
+
+## Updating Packages
+
+The `ITKR` and `ANTsR` packages take a long time to install.  If you would like to update `extrantsr` and use `devtools::install_github("muschellij2/extrantsr")`, it will by default check to see if the `ITKR` and `ANTsR` packages had changed since last installation and try to upgrade them.
+
+If you want to keep the versions of `ITKR` and `ANTsR` and just update `extrantsr`,  you can use the following code:
+
+```{r, eval = FALSE}
+devtools::install_github("muschellij2/extrantsr", upgrade_dependencies = FALSE)
+```
+

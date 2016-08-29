@@ -231,16 +231,18 @@ div.tocify {
 <h1>Preface</h1>
 <p>The course is designed for minimal system requirements or installation knowledge. We highly encourage users to install the <a href="https://www.smart-stats-tools.org/mooc-2015">VirtualBox</a></p>
 </div>
-<div id="windows" class="section level1">
-<h1>Windows</h1>
+<div id="windows-setup" class="section level1">
+<h1>Windows Setup</h1>
 <p>FSL will not install on a Windows machine, and the developers of FSL recommend a virtual machine to their users: <a href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation/Windows" class="uri">http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation/Windows</a>.</p>
 </div>
-<div id="mac-osx" class="section level1">
-<h1>Mac OSX</h1>
+<div id="mac-osx-setup" class="section level1">
+<h1>Mac OSX Setup</h1>
 <div id="installing-xcode" class="section level2">
 <h2>Installing Xcode</h2>
-<p>In order to install packages with compilation in <code>R</code>, you must install <code>Xcode</code>. For example, if you get the error: “Error: Could not find build tools necessary to build” for a package, please see <a href="http://stackoverflow.com/questions/35096233/error-could-not-find-build-tools-necessary-to-build-dplyr">this StackOverflow Post</a> for a discussion and <a href="https://developer.apple.com/downloads/">Xcode from Apple</a>.<br />
-## Installing Git and CMake</p>
+<p>In order to install packages with compilation in <code>R</code>, you must install <code>Xcode</code>. For example, if you get the error: “Error: Could not find build tools necessary to build” for a package, please see <a href="http://stackoverflow.com/questions/35096233/error-could-not-find-build-tools-necessary-to-build-dplyr">this StackOverflow Post</a> for a discussion and <a href="https://developer.apple.com/downloads/">Xcode from Apple</a>.</p>
+</div>
+<div id="installing-git-and-cmake" class="section level2">
+<h2>Installing Git and CMake</h2>
 <p>You need <code>cmake</code> and <code>git</code> to install <code>ITKR</code>. Go to a <code>Terminal</code> (using spotlight or from <code>/Applications/Utilities/Terminal</code>) and type</p>
 <pre><code>which cmake
 which git</code></pre>
@@ -273,13 +275,10 @@ export PATH</code></pre>
 </div>
 </div>
 </div>
-<div id="installing-r-packages" class="section level2">
-<h2>Installing R packages</h2>
 </div>
-</div>
-<div id="linux" class="section level1">
-<h1>Linux</h1>
-<div id="installing-git-and-cmake" class="section level2">
+<div id="linux-setup" class="section level1">
+<h1>Linux Setup</h1>
+<div id="installing-git-and-cmake-1" class="section level2">
 <h2>Installing Git and CMake</h2>
 <p>You need <code>cmake</code> and <code>git</code> to install <code>ITKR</code>. Go to a <code>Terminal</code> and type</p>
 <pre><code>which cmake
@@ -295,6 +294,113 @@ sudo apt-get install git-all</code></pre>
 <pre><code>sudo yum install cmake
 sudo yum install git-all</code></pre>
 </div>
+</div>
+<div id="fslr-setup" class="section level2">
+<h2><code>fslr</code> setup</h2>
+<div id="rstudio-vs.terminal" class="section level3">
+<h3>RStudio vs. Terminal</h3>
+<p>If you run <code>R</code> from the command line/Terminal then <code>FSLDIR</code> should be set when you installed <code>FSL</code> and you should be able to run <code>fslr</code> out of the box.</p>
+<p>If you are using <code>RStudio</code> or an <code>R</code> GUI, then you may have to make some changes to your directories for <code>fslr</code> to work.</p>
+</div>
+<div id="neurodebian-fslr-setup" class="section level3">
+<h3>Neurodebian <code>fslr</code> Setup</h3>
+<p>If you install <code>FSL</code> (version 5.0) using Neurodebian, the following script should copy the necessary data/binaries to a path where <code>fslr</code> can find them.</p>
+<pre class="bash"><code>FSLDIR=/usr/local/fsl
+FSLSHARE=/usr/share/data
+PATH=$PATH:${FSLDIR}/bin
+
+sudo mkdir -p ${FSLDIR}/bin
+sudo cp /usr/lib/fsl/5.0/* ${FSLDIR}/bin/
+sudo mkdir -p ${FSLDIR}/data/standard 
+sudo mkdir -p ${FSLDIR}/data/atlases 
+
+sudo cp -R ${FSLSHARE}/fsl-mni152-templates/* ${FSLDIR}/data/standard/
+
+# setting up atlases
+sudo cp -R ${FSLSHARE}/harvard-oxford-atlases/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/juelich-histological-atlas/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/bangor-cerebellar-atlas/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/jhu-dti-whitematter-atlas/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/forstmann-subthalamic-nucleus-atlas/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/fsl-resting-connectivity-parcellation-atlases/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/mni-structural-atlas/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/oxford-thalamic-connectivity-atlas/* ${FSLDIR}/data/atlases/ 
+sudo cp -R ${FSLSHARE}/talairach-daemon-atlas/* ${FSLDIR}/data/atlases/ </code></pre>
+</div>
+<div id="standard-fsl-installation-setup" class="section level3">
+<h3>Standard FSL installation Setup</h3>
+<p>If <code>FSL</code> was installed using the install scripts from the FSL website, then all files necessary should be located in <code>/usr/local/fsl</code>, and <code>fslr</code> should work out of the box.</p>
+</div>
+</div>
+</div>
+<div id="installing-r-packages" class="section level1">
+<h1>Installing R Packages</h1>
+<div id="installing-packages-from-cran" class="section level2">
+<h2>Installing Packages from CRAN</h2>
+<p>The <code>oro.nifti</code>, <code>oro.dicom</code>, and <code>fslr</code> packages are all on CRAN and can be installed using the standard <code>install.packages</code> way:</p>
+<pre class="r"><code>if (!require(oro.nifti)) {
+  install.packages(&quot;oro.nifti&quot;)
+}
+if (!require(oro.dicom)) {
+  install.packages(&quot;oro.dicom&quot;)
+}
+if (!require(fslr)) {
+  install.packages(&quot;fslr&quot;)
+}</code></pre>
+</div>
+<div id="installing-github-packages" class="section level2">
+<h2>Installing GitHub Packages</h2>
+<p>Some of the packages used are not on CRAN, and must be installed using <code>devtools</code>.<br />
+Note below, <code>fslr</code> is included. If you would like to use the GitHub version (in development, aka may break), then please use the code below. Otherwise use the CRAN version.</p>
+<div id="installing-devtools" class="section level3">
+<h3>Installing <code>devtools</code></h3>
+<pre class="r"><code>if (!require(devtools)) {
+    install.packages(&quot;devtools&quot;)
+}</code></pre>
+</div>
+<div id="installing-development-version-of-fslr" class="section level3">
+<h3>Installing Development version of <code>fslr</code></h3>
+<pre class="r"><code>if (!require(fslr)) {
+  devtools::install_github(&quot;muschellij2/fslr&quot;)
+}</code></pre>
+</div>
+<div id="installing-itkr" class="section level3">
+<h3>Installing <code>ITKR</code></h3>
+<p>Installing <code>ITKR</code> requires the <code>cmaker</code> package (at the time of writing):</p>
+<pre class="r"><code>if (!require(cmaker)) {
+  devtools::install_github(&quot;stnava/cmaker&quot;)
+}
+if (!require(ITKR)) {
+  devtools::install_github(&quot;stnava/ITKR&quot;)
+}</code></pre>
+<p>If the above doesn’t work, and you have <strong>double checked</strong> CMake and git are installed, try the following command:</p>
+<pre class="r"><code>if (!require(ITKR)) {
+  devtools::install_github(&quot;muschellij2/ITKR&quot;)
+}</code></pre>
+<p>This is a forked version of <code>ITKR</code> and may not be the most up to date, but has some changes to the install script</p>
+</div>
+<div id="installing-antsr-and-extrantsr" class="section level3">
+<h3>Installing <code>ANTsR</code> and <code>extrantsr</code></h3>
+<p>Note, if <code>ITKR</code> installation failed, then <code>ANTsR</code> installation will fail as it depends on <code>ITKR</code> and the <code>extrantsr</code> installation will fail because it depends on <code>ANTsR</code>.</p>
+<pre class="r"><code>if (!require(ANTsR)) {
+  devtools::install_github(&quot;stnava/ANTsR&quot;)
+}
+if (!require(extrantsr)) {
+  devtools::install_github(&quot;muschellij2/extrantsr&quot;)
+}</code></pre>
+</div>
+<div id="installing-antsr-from-a-binary" class="section level3">
+<h3>Installing <code>ANTsR</code> from a Binary</h3>
+<p>If <code>ANTsR</code> installation does not work above, but <code>ITKR</code> installed, you can try the release version of <code>ANTsR</code> for your respective system by downloading the tarballs from: <a href="https://github.com/stnava/ANTsR/releases" class="uri">https://github.com/stnava/ANTsR/releases</a>, and installing from <code>install.packages</code>:</p>
+<pre class="r"><code>path_to_tarball = &quot;~/Downloads/ANTsR_OSX_0.3.tgz&quot; # example - must change
+install.packages(path_to_tarball, repos = NULL)</code></pre>
+</div>
+</div>
+<div id="updating-packages" class="section level2">
+<h2>Updating Packages</h2>
+<p>The <code>ITKR</code> and <code>ANTsR</code> packages take a long time to install. If you would like to update <code>extrantsr</code> and use <code>devtools::install_github(&quot;muschellij2/extrantsr&quot;)</code>, it will by default check to see if the <code>ITKR</code> and <code>ANTsR</code> packages had changed since last installation and try to upgrade them.</p>
+<p>If you want to keep the versions of <code>ITKR</code> and <code>ANTsR</code> and just update <code>extrantsr</code>, you can use the following code:</p>
+<pre class="r"><code>devtools::install_github(&quot;muschellij2/extrantsr&quot;, upgrade_dependencies = FALSE)</code></pre>
 </div>
 </div>
 

@@ -224,7 +224,7 @@ If `ANTsR` installation does not work above, but `ITKR` installed, you can try t
 
 ```{r, eval = FALSE}
 path_to_tarball = "~/Downloads/ANTsR_OSX_0.3.tgz" # example - must change
-install.packages(path_to_tarball, repos = NULL)
+install.packages(path_to_tarball, repos = NULL, type = .Platform$pkgType)
 ```
 
 

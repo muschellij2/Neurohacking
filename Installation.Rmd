@@ -13,7 +13,7 @@ output:
 
 # Preface
 
-The course is designed for minimal system requirements or installation knowledge.  We highly encourage users to install the [VirtualBox](https://www.smart-stats-tools.org/mooc-2015).  If these commands do not work, please indicate on the discussion forums.  Also, please indicate other strategies you have tried before posting/where you have looked (such as StackOverflow links).
+The course is designed for minimal system requirements or installation knowledge.  We highly encourage users to install the [VirtualBox](https://www.smart-stats-tools.org/mooc-2015). If you have installed the VirtualBox, R is already installed for you. You can check it by typing in ``` yum info R ``` in terminal. You can start running R with ``` R command ``` . If these commands do not work, please indicate on the discussion forums.  Also, please indicate other strategies you have tried before posting/where you have looked (such as StackOverflow links).
 
 # Windows Setup
 
